@@ -7,9 +7,21 @@
   revision = "e2c46c587b5f3cf3dec985fd8f7e8232f9e40ac9"
   version = "v1.1.0"
 
+[[projects]]
+  name = "github.com/spf13/pflag"
+  packages = ["."]
+  revision = "298182f68c66c05229eb03ac171abe6e309ee79a"
+  version = "v1.0.3"
+
+[[projects]]
+  name = "gopkg.in/yaml.v2"
+  packages = ["."]
+  revision = "5420a8b6744d3b0345ab293f6fcba19c978f1183"
+  version = "v2.2.1"
+
 [solve-meta]
   analyzer-name = "dep"
   analyzer-version = 1
-  inputs-digest = "6db2eda02c2be4a8f217616c59035d7d0d61f534d715d68a61c1fd0496eb5784"
+  inputs-digest = "193df539ad65354ce5c4db6f1e5a30d3dfca28958b47d8f0c2291d9ad1d23c7f"
   solver-name = "gps-cdcl"
   solver-version = 1
