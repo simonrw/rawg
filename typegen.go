@@ -2,16 +2,12 @@ package main
 
 import (
 	"fmt"
-	"strings"
 
 	"github.com/dave/jennifer/jen"
 )
 
 // GenerateTypes generates types and prints to stdout
-func GenerateTypes(types ApiTypes) (string, error) {
-
-	// Writer for final result
-	var b strings.Builder
+func GenerateTypes(file *jen.File, types ApiTypes) error {
 
 	// Iterate over the types found in the definition
 	for typeIdx, typedef := range types {
@@ -28,7 +24,7 @@ func GenerateTypes(types ApiTypes) (string, error) {
 			case "string":
 				argDefs[paramIdx] = jen.Id(param.Name).String()
 			default:
-				return "", fmt.Errorf("Type %d, parameter %d, invalid type: %s", typeIdx, paramIdx, param.Type)
+				return fmt.Errorf("Type %d, parameter %d, invalid type: %s", typeIdx, paramIdx, param.Type)
 			}
 		}
 
@@ -38,10 +34,9 @@ func GenerateTypes(types ApiTypes) (string, error) {
 
 		// Build the actual struct definition from the argument definitions and add
 		// to the string builder
-		stmt := jen.Type().Id(structName).Struct(argDefs...)
-		fmt.Fprintf(&b, "%#v\n", stmt)
+		file.Type().Id(structName).Struct(argDefs...)
 	}
 
 	// Return the final generated code
-	return b.String(), nil
+	return nil
 }

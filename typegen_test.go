@@ -3,21 +3,9 @@ package main
 import (
 	"fmt"
 	"testing"
+
+	"github.com/dave/jennifer/jen"
 )
-
-// Helper function for performing the tests
-func compareGeneratedTypes(types ApiTypes, expected string) error {
-	text, err := GenerateTypes(types)
-	if err != nil {
-		return fmt.Errorf("Unexpected error: %v", err)
-	}
-
-	if text != expected {
-		return fmt.Errorf("Result: \n%s != expected:\n%s", text, expected)
-	}
-
-	return nil
-}
 
 func TestTypegen(t *testing.T) {
 	apiTypes := ApiTypes{
@@ -32,12 +20,21 @@ func TestTypegen(t *testing.T) {
 		},
 	}
 
-	expected := `type ApiRecord struct {
+	expected := stripTabs(`package main
+
+type ApiRecord struct {
 	foo int
 }
-`
-	err := compareGeneratedTypes(apiTypes, expected)
+`)
+
+	file := jen.NewFile("main")
+	err := GenerateTypes(file, apiTypes)
 	if err != nil {
 		t.Errorf("%s", err)
+	}
+
+	text := stripTabs(fmt.Sprintf("%#v", file))
+	if text != expected {
+		t.Errorf("Result:\n%#v\n!=\n%#v", text, expected)
 	}
 }
