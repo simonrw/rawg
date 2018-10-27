@@ -6,3 +6,9 @@ types:
     parameters:
       - name: foo
         type: int
+  - name: Suggestion
+    parameters:
+      - name: text
+        type: string
+      - name: keyword
+        type: string
