@@ -1,17 +1,13 @@
 package main
 
 import (
-	"bytes"
-
 	"github.com/dave/jennifer/jen"
 )
 
-func CreateClient(rootURL string) string {
-	b := &bytes.Buffer{}
-
-	stmt := jen.Type().Id("Client").Struct(
+func CreateClient(stmt *jen.Statement, rootURL string) *jen.Statement {
+	stmt = stmt.Add(jen.Type().Id("Client").Struct(
 		jen.Id("rootURL").String(),
-	)
+	))
 	stmt = stmt.Add(jen.Line())
 	stmt = stmt.Add(jen.Func().Id("NewClient").Params().Id("Client").Block(
 		jen.Return(
@@ -21,10 +17,5 @@ func CreateClient(rootURL string) string {
 		),
 	),
 	)
-	err := stmt.Render(b)
-	if err != nil {
-		panic(err)
-	}
-
-	return b.String()
+	return stmt
 }
