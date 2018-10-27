@@ -1,12 +1,29 @@
 package main
 
-import "testing"
+import (
+	"fmt"
+	"testing"
+)
+
+// Helper function for performing the tests
+func compareGeneratedTypes(types ApiTypes, expected string) error {
+	text, err := GenerateTypes(types)
+	if err != nil {
+		return fmt.Errorf("Unexpected error: %v", err)
+	}
+
+	if text != expected {
+		return fmt.Errorf("Result: \n%s != expected:\n%s", text, expected)
+	}
+
+	return nil
+}
 
 func TestTypegen(t *testing.T) {
-	apiTypes := []ApiType{
+	apiTypes := ApiTypes{
 		ApiType{
 			Name: "Record",
-			Parameters: []TypeParameter{
+			Parameters: TypeParameters{
 				TypeParameter{
 					Name: "foo",
 					Type: "int",
@@ -14,16 +31,13 @@ func TestTypegen(t *testing.T) {
 			},
 		},
 	}
-	text, err := GenerateTypes(apiTypes)
-	if err != nil {
-		t.Errorf("Unexpected error: %v", err)
-	}
 
 	expected := `type ApiRecord struct {
 	foo int
 }
 `
-	if text != expected {
-		t.Errorf("Result: \n%s != expected:\n%s", text, expected)
+	err := compareGeneratedTypes(apiTypes, expected)
+	if err != nil {
+		t.Errorf("%s", err)
 	}
 }
