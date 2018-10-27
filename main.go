@@ -1,11 +1,9 @@
 package main
 
-import "github.com/dave/jennifer/jen"
-
 func main() {
-	file := jen.NewFile("main")
+	builder := NewBuilder()
 	rootURL := "https://example.com"
-	CreateClient(file, rootURL)
+	builder.CreateClient(rootURL)
 
 	apiTypes := ApiTypes{
 		ApiType{
@@ -18,10 +16,9 @@ func main() {
 			},
 		},
 	}
-	err := GenerateTypes(file, apiTypes)
+	err := builder.GenerateTypes(apiTypes)
 	if err != nil {
 		panic(err)
 	}
-
-	file.Save("/tmp/out.go")
+	builder.Save("/tmp/out.go")
 }

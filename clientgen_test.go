@@ -4,8 +4,6 @@ import (
 	"fmt"
 	"strings"
 	"testing"
-
-	"github.com/dave/jennifer/jen"
 )
 
 // TODO: work out why this is needed...
@@ -15,8 +13,8 @@ func stripTabs(text string) string {
 
 func TestCreateClient(t *testing.T) {
 	rootURL := "http://httpbin.org"
-	file := jen.NewFile("main")
-	CreateClient(file, rootURL)
+	builder := NewBuilder()
+	builder.CreateClient(rootURL)
 
 	expected := stripTabs(`package main
 	
@@ -29,7 +27,7 @@ func NewClient() Client {
 }
 `)
 
-	text := stripTabs(fmt.Sprintf("%#v", file))
+	text := stripTabs(fmt.Sprintf("%#v", builder.file))
 
 	if text != expected {
 		t.Errorf("Result:\n%#v\n!=\n%#v", text, expected)

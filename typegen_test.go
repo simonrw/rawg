@@ -3,8 +3,6 @@ package main
 import (
 	"fmt"
 	"testing"
-
-	"github.com/dave/jennifer/jen"
 )
 
 func TestTypegen(t *testing.T) {
@@ -27,13 +25,13 @@ type ApiRecord struct {
 }
 `)
 
-	file := jen.NewFile("main")
-	err := GenerateTypes(file, apiTypes)
+	builder := NewBuilder()
+	err := builder.GenerateTypes(apiTypes)
 	if err != nil {
 		t.Errorf("%s", err)
 	}
 
-	text := stripTabs(fmt.Sprintf("%#v", file))
+	text := stripTabs(fmt.Sprintf("%#v", builder.file))
 	if text != expected {
 		t.Errorf("Result:\n%#v\n!=\n%#v", text, expected)
 	}

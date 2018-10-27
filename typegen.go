@@ -7,7 +7,7 @@ import (
 )
 
 // GenerateTypes generates types and prints to stdout
-func GenerateTypes(file *jen.File, types ApiTypes) error {
+func (b *Builder) GenerateTypes(types ApiTypes) error {
 
 	// Iterate over the types found in the definition
 	for typeIdx, typedef := range types {
@@ -34,7 +34,7 @@ func GenerateTypes(file *jen.File, types ApiTypes) error {
 
 		// Build the actual struct definition from the argument definitions and add
 		// to the string builder
-		file.Type().Id(structName).Struct(argDefs...)
+		b.file.Type().Id(structName).Struct(argDefs...)
 	}
 
 	// Return the final generated code
