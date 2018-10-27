@@ -1,6 +1,7 @@
 package main
 
 import (
+	"fmt"
 	"log"
 
 	. "github.com/dave/jennifer/jen"
@@ -18,10 +19,11 @@ func main() {
 		log.Fatal(err)
 	}
 
-	err = GenerateTypes(def.Types)
+	stmts, err := GenerateTypes(def.Types)
 	if err != nil {
 		log.Fatal(err)
 	}
+	fmt.Println(stmts)
 
 	f := NewFile("main")
 	f.Func().Id("main").Params().Block(

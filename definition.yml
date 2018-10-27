@@ -12,3 +12,5 @@ types:
         type: string
       - name: keyword
         type: string
+      - name: priority
+        type: int
