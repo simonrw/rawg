@@ -1,8 +1,6 @@
 endpoints:
   - url: /record
     method: GET
-  - url: /foo
-    method: POST
 types:
   - name: Record
     parameters:
