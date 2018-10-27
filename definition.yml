@@ -1,6 +1,8 @@
 endpoints:
-  - url: /record
+  - name: "records"
+    url: /record
     method: GET
+    returns: Suggestion
 types:
   - name: Record
     parameters:

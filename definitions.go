@@ -6,8 +6,10 @@ type Definition struct {
 }
 
 type Endpoint struct {
-	Url    string `yaml:"url"`
-	Method string `yaml:"method"`
+	Name    string `yaml:"name"`
+	Url     string `yaml:"url"`
+	Method  string `yaml:"method"`
+	Returns string `yaml:"returns"`
 }
 
 type ApiType struct {

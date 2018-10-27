@@ -1,0 +1,62 @@
+package main
+
+import (
+	"encoding/json"
+	"fmt"
+	"io/ioutil"
+	"log"
+	"net/http"
+)
+
+type Client struct {
+	rootUrl string
+}
+
+func NewClient(rootUrl string) Client {
+	return Client{
+		rootUrl: rootUrl,
+	}
+}
+
+type Suggestion struct {
+	Slideshow struct {
+		Author string `json:"author"`
+		Date   string `json:"date"`
+		Title  string `json:"title"`
+	} `json:"slideshow"`
+}
+
+func (c *Client) FetchRecords() (*Suggestion, error) {
+	url := c.createURL("/json")
+	resp, err := http.Get(url)
+	if err != nil {
+		return nil, err
+	}
+	defer resp.Body.Close()
+
+	body, err := ioutil.ReadAll(resp.Body)
+	if err != nil {
+		return nil, err
+	}
+
+	var out Suggestion
+	err = json.Unmarshal(body, &out)
+	if err != nil {
+		return nil, err
+	}
+
+	return &out, nil
+}
+
+func (c *Client) createURL(endpoint string) string {
+	return c.rootUrl + "/" + endpoint
+}
+
+func main() {
+	client := NewClient("http://httpbin.org")
+	suggestion, err := client.FetchRecords()
+	if err != nil {
+		log.Fatal(err)
+	}
+	fmt.Printf("%#v\n", suggestion)
+}
